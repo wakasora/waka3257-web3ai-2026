@@ -1,6 +1,8 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
+// Leaflet CSSをコンポーネント内で直接読み込み、Next.jsのチャンクで確実に先に適用させます
+import 'leaflet/dist/leaflet.css';
 import type { Spot } from '@/lib/types';
 
 interface LeafletMapProps {
@@ -17,15 +19,29 @@ export default function LeafletMap({ spots, selectedId, onSelect }: LeafletMapPr
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
-    // 地図の初期化（津田沼駅周辺）
+    // 津田沼駅中心座標
+    const centerLat = 35.6912;
+    const centerLng = 140.0210;
+
+    // 半径約3kmの移動制限範囲 (緯度・経度の差約0.027)
+    const boundsOffset = 0.027;
+    const southWest = L.latLng(centerLat - boundsOffset, centerLng - boundsOffset);
+    const northEast = L.latLng(centerLat + boundsOffset, centerLng + boundsOffset);
+    const maxBounds = L.latLngBounds(southWest, northEast);
+
+    // 地図の初期化
     const map = L.map(mapContainerRef.current, {
-      center: [35.6912, 140.0210],
+      center: [centerLat, centerLng],
       zoom: 15,
+      minZoom: 14, // 外側にズームアウトしすぎない制限
+      maxZoom: 18,
+      maxBounds: maxBounds,
+      maxBoundsViscosity: 1.0, // 範囲外に行こうとすると弾き返される
       zoomControl: false,
     });
     mapRef.current = map;
 
-    // ズームコントロールの位置を右下に
+    // ズームコントロール
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
     // 超シンプルなライトテーマ地図タイル (CartoDB Positron)
@@ -35,7 +51,13 @@ export default function LeafletMap({ spots, selectedId, onSelect }: LeafletMapPr
       maxZoom: 20,
     }).addTo(map);
 
+    // 【重要】レンダリングズレの解消のため、少し遅らせてサイズ更新を実行する
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
+
     return () => {
+      clearTimeout(timer);
       map.remove();
       mapRef.current = null;
     };
@@ -56,16 +78,18 @@ export default function LeafletMap({ spots, selectedId, onSelect }: LeafletMapPr
       // 無印風ミニマル円形ピン
       const marker = L.circleMarker([spot.lat, spot.lng], {
         radius: isSelected ? 12 : 8,
-        fillColor: isSelected ? '#d97706' : '#f59e0b', // 選択時は少し濃い琥珀色
+        fillColor: isSelected ? '#d97706' : '#f59e0b',
         color: '#ffffff',
         weight: 2,
-        fillOpacity: isSelected ? 0.9 : 0.7,
+        fillOpacity: isSelected ? 0.95 : 0.75,
       });
 
       marker.addTo(map);
 
-      // クリックイベント
-      marker.on('click', () => {
+      // マーカークリック時の動作を定義
+      marker.on('click', (e) => {
+        // イベントがマップ背景のクリック等に伝播しないようにする
+        L.DomEvent.stopPropagation(e);
         onSelect(spot.id);
       });
 
@@ -86,7 +110,7 @@ export default function LeafletMap({ spots, selectedId, onSelect }: LeafletMapPr
 
   return (
     <div className="w-full h-full relative">
-      <div ref={mapContainerRef} className="w-full h-full rounded-lg border border-stone-200" />
+      <div ref={mapContainerRef} className="w-full h-full rounded border border-stone-200 shadow-inner" />
     </div>
   );
 }
