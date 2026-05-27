@@ -15,7 +15,6 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: '滞在地図',
-  description: '作業、休憩、あるいはただ時間を過ごすための、都市の余白を見つける地図。',
 };
 
 export default function RootLayout({
