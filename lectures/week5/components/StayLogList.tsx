@@ -20,9 +20,9 @@ const DURATION_LABELS: Record<string, string> = {
 
 const SCOPE_LABELS: Record<string, string> = {
   private: '🔒 プライベート',
-  friends: '👥 フレンドのみ',
-  area_only: '📍 エリア公開',
-  public: '🌐 全体公開',
+  friends: '👥 フレンド',
+  area_only: '📍 エリア限定',
+  public: '🌐 全体',
 };
 
 interface StayLogListProps {
@@ -32,74 +32,63 @@ interface StayLogListProps {
 export default function StayLogList({ logs }: StayLogListProps) {
   if (logs.length === 0) {
     return (
-      <p className="text-xs text-stone-600 py-4 text-center">
-        まだ滞在ログがありません。
+      <p className="text-xs text-stone-400 py-6 text-center font-mono">
+        no logs recorded
       </p>
     );
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {logs.map((log) => (
-        <div key={log.id} className="rounded-xl border border-stone-800 bg-stone-900/60 p-4">
-          <div className="flex items-start justify-between mb-2">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-medium text-stone-200">
+        <div key={log.id} className="rounded border border-stone-200 bg-white p-4">
+          <div className="flex items-start justify-between mb-1.5">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="text-xs font-semibold text-stone-800">
                 {ACTIVITY_LABELS[log.activity] ?? log.activity}
               </span>
-              <span className="text-xs text-stone-500">·</span>
-              <span className="text-xs text-stone-400">{DURATION_LABELS[log.duration] ?? log.duration}</span>
-              <span className="text-xs text-stone-500">·</span>
-              <span className="text-xs text-stone-500">{SCOPE_LABELS[log.scope]}</span>
+              <span className="text-stone-300 text-[10px]">|</span>
+              <span className="text-xs text-stone-500">{DURATION_LABELS[log.duration] ?? log.duration}</span>
+              <span className="text-stone-300 text-[10px]">|</span>
+              <span className="text-[10px] text-stone-400 font-mono">{SCOPE_LABELS[log.scope]}</span>
             </div>
-            <time className="text-xs text-stone-600 flex-shrink-0 ml-2">
-              {new Date(log.createdAt).toLocaleDateString('ja-JP', {
-                month: 'short',
-                day: 'numeric',
-              })}
+            <time className="text-[10px] text-stone-400 font-mono">
+              {new Date(log.createdAt).toLocaleDateString('ja-JP')}
             </time>
           </div>
 
-          <div className="flex flex-wrap gap-x-4 gap-y-1 mb-2">
-            <span className="text-xs text-stone-500">
-              居心地 <span className="text-amber-400 font-mono">{log.comfort}</span>/5
-            </span>
-            <span className="text-xs text-stone-500">
-              消費圧 <span className="text-stone-300 font-mono">{log.consumptionPressure}</span>/5
-            </span>
-            <span className="text-xs text-stone-500">
-              作業 <span className="text-stone-300 font-mono">{log.workTolerance}</span>/5
-            </span>
-            <span className="text-xs text-stone-500">
-              人目圧 <span className="text-stone-300 font-mono">{log.visibilityPressure}</span>/5
-            </span>
+          <div className="flex flex-wrap gap-x-3 gap-y-0.5 mb-2 text-[10px] text-stone-400 font-mono">
+            <span>居心地:{log.comfort}</span>
+            <span>消費圧:{log.consumptionPressure}</span>
+            <span>作業許容:{log.workTolerance}</span>
+            <span>人目圧:{log.visibilityPressure}</span>
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-2">
+          <div className="flex flex-wrap gap-1 mb-2">
             {log.canOpenPC && (
-              <span className="text-xs text-sky-400 bg-sky-950/40 border border-sky-800/30 rounded-full px-2 py-0.5">
+              <span className="text-[9px] text-stone-600 bg-stone-100 rounded px-1.5 py-0.5">
                 PC可
               </span>
             )}
             {log.weatherEscape && (
-              <span className="text-xs text-lime-400 bg-lime-950/40 border border-lime-800/30 rounded-full px-2 py-0.5">
-                雨避けできた
+              <span className="text-[9px] text-stone-600 bg-stone-100 rounded px-1.5 py-0.5">
+                雨避け
               </span>
             )}
             {log.wantToReturn && (
-              <span className="text-xs text-amber-400 bg-amber-950/40 border border-amber-800/30 rounded-full px-2 py-0.5">
+              <span className="text-[9px] text-amber-800 bg-amber-100 rounded px-1.5 py-0.5 font-medium">
                 また来たい
               </span>
             )}
             {log.spentAmount !== '0' && (
-              <span className="text-xs text-stone-400 bg-stone-800/60 border border-stone-700/30 rounded-full px-2 py-0.5">
+              <span className="text-[9px] text-stone-500 bg-stone-100 rounded px-1.5 py-0.5">
                 {log.spentAmount === '~300' ? '〜300円' : log.spentAmount === '~700' ? '〜700円' : '1000円+'}
               </span>
             )}
           </div>
 
           {log.memo && (
-            <p className="text-xs text-stone-400 leading-relaxed mt-2 border-t border-stone-800 pt-2">
+            <p className="text-xs text-stone-600 leading-relaxed mt-2 border-t border-stone-100 pt-2">
               {log.memo}
             </p>
           )}

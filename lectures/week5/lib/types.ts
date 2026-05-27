@@ -38,9 +38,12 @@ export interface Spot {
   stayDuration: string;
   description: string;
   baseScores: Scores;
-  // map上の相対座標 (0-100の%)
+  // map上の相対座標 (0-100の%) - レガシー対応のため残す
   mapX: number;
   mapY: number;
+  // 実地図用の座標
+  lat: number;
+  lng: number;
 }
 
 export interface StayLog {

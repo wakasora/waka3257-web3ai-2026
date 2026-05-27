@@ -22,6 +22,8 @@ export const SEED_SPOTS: Spot[] = [
     },
     mapX: 30,
     mapY: 25,
+    lat: 35.6910,
+    lng: 140.0215,
   },
   {
     id: 'spot-2',
@@ -44,6 +46,8 @@ export const SEED_SPOTS: Spot[] = [
     },
     mapX: 52,
     mapY: 45,
+    lat: 35.6925,
+    lng: 140.0208,
   },
   {
     id: 'spot-3',
@@ -66,6 +70,8 @@ export const SEED_SPOTS: Spot[] = [
     },
     mapX: 70,
     mapY: 60,
+    lat: 35.6888,
+    lng: 140.0280,
   },
   {
     id: 'spot-4',
@@ -88,6 +94,8 @@ export const SEED_SPOTS: Spot[] = [
     },
     mapX: 20,
     mapY: 70,
+    lat: 35.6908,
+    lng: 140.0225,
   },
   {
     id: 'spot-5',
@@ -110,6 +118,8 @@ export const SEED_SPOTS: Spot[] = [
     },
     mapX: 45,
     mapY: 30,
+    lat: 35.6898,
+    lng: 140.0205,
   },
   {
     id: 'spot-6',
@@ -132,5 +142,7 @@ export const SEED_SPOTS: Spot[] = [
     },
     mapX: 60,
     mapY: 40,
+    lat: 35.6920,
+    lng: 140.0220,
   },
 ];

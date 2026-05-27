@@ -12,21 +12,21 @@ const navItems = [
 export default function Header() {
   const pathname = usePathname();
   return (
-    <header className="sticky top-0 z-50 border-b border-stone-800 bg-stone-950/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-stone-200 bg-stone-50/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-amber-400 font-mono text-sm tracking-widest">◎</span>
-          <span className="font-semibold text-stone-100 tracking-wide">滞在地図</span>
+          <span className="text-amber-500 font-mono text-base font-bold">◎</span>
+          <span className="font-medium text-stone-900 tracking-wider text-sm">滞在地図</span>
         </Link>
-        <nav className="flex items-center gap-1">
+        <nav className="flex items-center gap-2">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`rounded px-3 py-1.5 text-sm transition-colors ${
+              className={`rounded px-3 py-1 text-xs font-medium transition-all ${
                 pathname === item.href
-                  ? 'bg-stone-800 text-amber-400'
-                  : 'text-stone-400 hover:bg-stone-800/60 hover:text-stone-100'
+                  ? 'bg-amber-100 text-amber-800'
+                  : 'text-stone-500 hover:bg-stone-100 hover:text-stone-800'
               }`}
             >
               {item.label}

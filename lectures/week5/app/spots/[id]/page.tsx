@@ -40,69 +40,51 @@ export default function SpotDetailPage({ params }: Props) {
   const scores = calcAdjustedScores(spot, logs);
   const reliability = getReliability(logs.length);
 
-  const PRICE_COLORS: Record<string, string> = {
-    無料: 'text-emerald-400 border-emerald-800/40 bg-emerald-950/30',
-    低価格: 'text-amber-400 border-amber-800/40 bg-amber-950/30',
-    有料: 'text-stone-400 border-stone-700/40 bg-stone-800/30',
-  };
-
   return (
-    <div className="min-h-screen bg-stone-950">
-      <div className="max-w-2xl mx-auto px-4 py-6">
-        {/* パンくず */}
-        <Link href="/map" className="text-xs text-stone-500 hover:text-stone-400 transition-colors mb-4 inline-block">
-          ← マップに戻る
+    <div className="min-h-screen bg-stone-50 text-stone-900">
+      <div className="max-w-xl mx-auto px-4 py-8">
+        {/* ナビゲーション */}
+        <Link href="/map" className="text-xs text-stone-400 hover:text-stone-600 transition-colors mb-6 inline-block font-mono">
+          ← BACK TO MAP
         </Link>
 
-        {/* ヘッダー */}
+        {/* ヘッダー情報 */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs text-stone-500">{spot.category}</span>
-            <span className="text-stone-700">·</span>
-            <span className="text-xs text-stone-500">{spot.area}</span>
+          <div className="flex items-center gap-1.5 text-[10px] font-mono text-stone-400 mb-1">
+            <span>{spot.category}</span>
+            <span>·</span>
+            <span>{spot.area}</span>
           </div>
-          <h1 className="text-2xl font-bold text-stone-100 mb-3">{spot.name}</h1>
-          <div className="flex flex-wrap gap-2">
-            <span className={`rounded-full px-3 py-1 text-xs border ${PRICE_COLORS[spot.price]}`}>
+          <h1 className="text-xl font-semibold text-stone-900 mb-3">{spot.name}</h1>
+          
+          <div className="flex flex-wrap gap-1.5">
+            <span className="rounded bg-stone-100 px-2 py-0.5 text-xs text-stone-600 font-mono">
               {spot.price}
             </span>
-            <span className={`rounded-full px-3 py-1 text-xs border ${
-              spot.indoor
-                ? 'text-sky-400 border-sky-800/40 bg-sky-950/30'
-                : 'text-lime-400 border-lime-800/40 bg-lime-950/30'
-            }`}>
+            <span className="rounded bg-stone-100 px-2 py-0.5 text-xs text-stone-600 font-mono">
               {spot.indoor ? '屋内' : '屋外'}
             </span>
-            <span className="rounded-full px-3 py-1 text-xs border border-stone-700/40 bg-stone-800/30 text-stone-400">
+            <span className="rounded bg-stone-100 px-2 py-0.5 text-xs text-stone-600 font-mono">
               目安 {spot.stayDuration}
             </span>
           </div>
         </div>
 
-        {/* 批評文 */}
-        <div className="rounded-xl border border-stone-800 bg-stone-900/50 p-4 mb-6">
-          <p className="text-sm text-stone-300 leading-relaxed">{spot.description}</p>
+        {/* 簡潔な批評文 */}
+        <div className="border border-stone-200 bg-white rounded p-4 mb-6">
+          <p className="text-xs text-stone-600 leading-relaxed font-light">{spot.description}</p>
         </div>
 
-        {/* スコア */}
-        <div className="rounded-xl border border-stone-800 bg-stone-900/60 p-5 mb-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-semibold text-stone-200">評価スコア</h2>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-stone-500">信頼度</span>
-              <span className={`text-xs font-mono px-2 py-0.5 rounded border ${
-                reliability === '高'
-                  ? 'text-emerald-400 border-emerald-800/40 bg-emerald-950/30'
-                  : reliability === '中'
-                  ? 'text-amber-400 border-amber-800/40 bg-amber-950/30'
-                  : 'text-stone-400 border-stone-700/40 bg-stone-800/30'
-              }`}>
-                {reliability}（{logs.length}件）
-              </span>
-            </div>
+        {/* スコア一覧 */}
+        <div className="border border-stone-200 bg-white rounded p-5 mb-6">
+          <div className="flex items-center justify-between mb-4 pb-2 border-b border-stone-100">
+            <h2 className="text-xs font-bold tracking-wider text-stone-700">STAY SCORES</h2>
+            <span className="text-[10px] font-mono text-stone-400">
+              信頼度: {reliability} ({logs.length} logs)
+            </span>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-1">
             <ScoreBar label="消費圧" value={scores.consumptionPressure} inverse />
             <ScoreBar label="作業許容度" value={scores.workTolerance} />
             <ScoreBar label="目的要求度" value={scores.purposePressure} inverse />
@@ -111,18 +93,11 @@ export default function SpotDetailPage({ params }: Props) {
             <ScoreBar label="天候耐性" value={scores.weatherResistance} />
             <ScoreBar label="壊れやすさ" value={scores.fragility} inverse />
           </div>
-
-          <p className="text-xs text-stone-600 mt-4">
-            ※ ログ{logs.length}件で補正済み。ログが増えるほど実態に近づきます。
-          </p>
         </div>
 
-        {/* 滞在ログ */}
-        <div className="mb-6">
-          <h2 className="text-sm font-semibold text-stone-200 mb-3">
-            滞在ログ
-            <span className="text-stone-600 font-normal ml-2">({logs.length}件)</span>
-          </h2>
+        {/* 滞在ログセクション */}
+        <div className="mb-8">
+          <h2 className="text-xs font-bold tracking-wider text-stone-700 mb-3">LOGS</h2>
           <StayLogList key={refreshKey} logs={logs} />
         </div>
 

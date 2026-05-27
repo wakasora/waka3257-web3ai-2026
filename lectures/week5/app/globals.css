@@ -1,34 +1,42 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 :root {
-  --background: #0c0a09;
-  --foreground: #e7e5e4;
+  --background: #faf9f6; /* 温かみのあるオフホワイト */
+  --foreground: #1c1917; /* 石炭色（深いグレー・黒） */
+  --primary: #d97706;    /* 琥珀色・マスタードイエロー */
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), sans-serif;
+  letter-spacing: -0.01em;
 }
 
-/* スクロールバー */
+/* ミニマルなスクロールバー */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #1c1917;
+  background: #f5f5f4;
 }
 ::-webkit-scrollbar-thumb {
-  background: #44403c;
-  border-radius: 3px;
+  background: #d6d3d1;
+  border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #78716c;
+  background: #a8a29e;
 }
 
-/* フォームフォーカスアウトライン */
-*:focus-visible {
-  outline: 2px solid #d97706;
-  outline-offset: 2px;
-  border-radius: 4px;
+/* Leaflet用カスタム調整 */
+.leaflet-container {
+  font-family: inherit;
+  background: #faf9f6 !important;
+}
+
+/* ピンのホバー等のカスタムスタイル */
+.custom-pin-active {
+  transform: scale(1.2);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }

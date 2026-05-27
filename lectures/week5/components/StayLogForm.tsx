@@ -53,17 +53,17 @@ function RadioGroup<T extends string>({
 }) {
   return (
     <div>
-      <p className="text-xs text-stone-400 mb-1.5">{label}</p>
-      <div className="flex flex-wrap gap-2">
+      <p className="text-xs font-semibold text-stone-700 mb-1.5">{label}</p>
+      <div className="flex flex-wrap gap-1.5">
         {options.map((opt) => (
           <button
             key={opt.value}
             type="button"
             onClick={() => onChange(opt.value)}
-            className={`rounded-full px-3 py-1 text-xs border transition-all ${
+            className={`rounded px-2.5 py-1 text-xs border transition-all ${
               value === opt.value
-                ? 'bg-amber-500/20 border-amber-500/60 text-amber-300'
-                : 'border-stone-700 text-stone-400 hover:border-stone-500'
+                ? 'bg-amber-100 border-amber-300 text-amber-900 font-medium'
+                : 'bg-white border-stone-200 text-stone-600 hover:border-stone-300'
             }`}
           >
             {opt.label}
@@ -77,15 +77,17 @@ function RadioGroup<T extends string>({
 function StarRating({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) {
   return (
     <div>
-      <p className="text-xs text-stone-400 mb-1.5">{label}</p>
+      <p className="text-xs font-semibold text-stone-700 mb-1.5">{label}</p>
       <div className="flex gap-1">
         {[1, 2, 3, 4, 5].map((n) => (
           <button
             key={n}
             type="button"
             onClick={() => onChange(n)}
-            className={`w-7 h-7 rounded text-sm transition-all ${
-              n <= value ? 'bg-amber-500/30 text-amber-400 border border-amber-500/40' : 'bg-stone-800 text-stone-600 border border-stone-700 hover:border-stone-500'
+            className={`w-7 h-7 rounded text-xs transition-all ${
+              n <= value
+                ? 'bg-amber-100 text-amber-900 border border-amber-300 font-semibold'
+                : 'bg-white text-stone-400 border border-stone-200 hover:border-stone-300'
             }`}
           >
             {n}
@@ -98,18 +100,18 @@ function StarRating({ label, value, onChange }: { label: string; value: number; 
 
 function Toggle({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) {
   return (
-    <div className="flex items-center justify-between">
-      <span className="text-xs text-stone-400">{label}</span>
+    <div className="flex items-center justify-between py-1">
+      <span className="text-xs font-semibold text-stone-700">{label}</span>
       <button
         type="button"
         onClick={() => onChange(!value)}
-        className={`relative w-10 h-5 rounded-full border transition-all ${
-          value ? 'bg-amber-500/30 border-amber-500/40' : 'bg-stone-800 border-stone-700'
+        className={`relative w-8 h-4 rounded-full border transition-all ${
+          value ? 'bg-amber-400 border-amber-400' : 'bg-stone-200 border-stone-200'
         }`}
       >
         <span
-          className={`absolute top-0.5 w-4 h-4 rounded-full transition-all ${
-            value ? 'left-5 bg-amber-400' : 'left-0.5 bg-stone-600'
+          className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${
+            value ? 'left-4' : 'left-0.5'
           }`}
         />
       </button>
@@ -160,7 +162,7 @@ export default function StayLogForm({ spotId, onSaved }: StayLogFormProps) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="w-full rounded-xl border border-dashed border-amber-700/40 bg-amber-950/20 py-3 text-sm text-amber-400 hover:bg-amber-950/40 transition-all"
+        className="w-full rounded border border-dashed border-stone-300 bg-white py-3 text-xs text-stone-600 hover:border-amber-400 hover:text-amber-900 transition-all font-medium"
       >
         ＋ 滞在ログを書く
       </button>
@@ -168,20 +170,20 @@ export default function StayLogForm({ spotId, onSaved }: StayLogFormProps) {
   }
 
   return (
-    <div className="rounded-xl border border-stone-700 bg-stone-900/80 p-5 space-y-5">
-      <h3 className="text-sm font-semibold text-stone-200">滞在ログを記録する</h3>
+    <div className="rounded border border-stone-200 bg-white p-5 space-y-5">
+      <h3 className="text-xs font-bold text-stone-800 tracking-wider">滞在ログを記録する</h3>
 
       <RadioGroup label="何をしたか" options={ACTIVITIES} value={activity} onChange={setActivity} />
       <RadioGroup label="滞在時間" options={DURATIONS} value={duration} onChange={setDuration} />
       <RadioGroup label="使った金額" options={AMOUNTS} value={spentAmount} onChange={setSpentAmount} />
 
-      <div className="space-y-3">
+      <div className="space-y-2 border-t border-stone-100 pt-3">
         <Toggle label="PCを開けたか" value={canOpenPC} onChange={setCanOpenPC} />
         <Toggle label="天候から逃げられたか" value={weatherEscape} onChange={setWeatherEscape} />
         <Toggle label="また使いたいか" value={wantToReturn} onChange={setWantToReturn} />
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-3 border-t border-stone-100 pt-3">
         <StarRating label="居心地 (1=最悪, 5=最高)" value={comfort} onChange={setComfort} />
         <StarRating label="消費圧 (1=低, 5=高)" value={consumptionPressure} onChange={setConsumptionPressure} />
         <StarRating label="作業許容度 (1=不可, 5=最適)" value={workTolerance} onChange={setWorkTolerance} />
@@ -191,26 +193,26 @@ export default function StayLogForm({ spotId, onSaved }: StayLogFormProps) {
       <RadioGroup label="公開範囲" options={SCOPES} value={scope} onChange={setScope} />
 
       <div>
-        <p className="text-xs text-stone-400 mb-1.5">自由メモ</p>
+        <p className="text-xs font-semibold text-stone-700 mb-1.5">自由メモ</p>
         <textarea
           value={memo}
           onChange={(e) => setMemo(e.target.value)}
           placeholder="気づいたこと、場所の雰囲気など..."
           rows={3}
-          className="w-full rounded-lg border border-stone-700 bg-stone-800 px-3 py-2 text-xs text-stone-200 placeholder-stone-600 resize-none focus:outline-none focus:border-amber-600/50"
+          className="w-full rounded border border-stone-200 bg-stone-50 px-3 py-2 text-xs text-stone-800 placeholder-stone-400 resize-none focus:outline-none focus:border-amber-400"
         />
       </div>
 
-      <div className="flex gap-2 pt-1">
+      <div className="flex gap-2 pt-2">
         <button
           onClick={handleSubmit}
-          className="flex-1 rounded-lg bg-amber-600/80 hover:bg-amber-600 py-2 text-sm font-medium text-stone-100 transition-all"
+          className="flex-1 rounded bg-amber-500 hover:bg-amber-600 py-2 text-xs font-semibold text-white transition-all"
         >
           記録する
         </button>
         <button
           onClick={() => setOpen(false)}
-          className="rounded-lg border border-stone-700 px-4 py-2 text-sm text-stone-400 hover:border-stone-500 transition-all"
+          className="rounded border border-stone-200 px-4 py-2 text-xs text-stone-500 hover:border-stone-300 transition-all bg-white"
         >
           キャンセル
         </button>
