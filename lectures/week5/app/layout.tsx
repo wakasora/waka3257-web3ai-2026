@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: '滞在地図',
-  description: '街は目的を要請してくる。でも、私たちはただ滞在したいだけだ。',
+  description: '作業、休憩、あるいはただ時間を過ごすための、都市の余白を見つける地図。',
 };
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-stone-950 text-stone-100`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-stone-50 text-stone-900`}>
         <Header />
         {children}
       </body>
