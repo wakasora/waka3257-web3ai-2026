@@ -52,7 +52,7 @@ export default function HomePage() {
               href="/map"
               className="inline-block rounded bg-amber-500 hover:bg-amber-600 text-white px-8 py-2.5 text-xs font-semibold tracking-widest transition-colors shadow-sm"
             >
-              津田沼で探す (マップを開く) →
+              マップを開く →
             </Link>
           </div>
         </form>
