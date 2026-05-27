@@ -1,12 +1,12 @@
 'use client';
 
-export type FilterKey = 'free' | 'indoor' | 'work' | 'rest';
+export type FilterKey = 'free' | 'alone' | 'work' | 'rain';
 
 const FILTER_LABELS: Record<FilterKey, string> = {
-  free: '無料・低価格',
-  indoor: '屋内',
-  work: '作業向き',
-  rest: '休憩向き',
+  free: '無料で座れる',
+  alone: '一人でいられる',
+  work: '少し作業できる',
+  rain: '雨を避けられる',
 };
 
 interface FilterPanelProps {
@@ -23,7 +23,7 @@ export default function FilterPanel({ active, onToggle }: FilterPanelProps) {
           <button
             key={key}
             onClick={() => onToggle(key)}
-            className={`rounded px-3 py-1 text-xs font-medium border transition-all ${
+            className={`rounded-full px-3 py-1 text-[11px] font-medium border transition-all ${
               isSelected
                 ? 'bg-amber-100 border-amber-300 text-amber-900 font-semibold'
                 : 'bg-white border-stone-200 text-stone-600 hover:border-stone-300 hover:text-stone-900'
